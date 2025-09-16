@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>16x16 Grid</title>
+        <style>
+            .grid-container {
+                display: flex; 
+                flex-wrap: wrap;
+                width: 960px;
+                height: 960px;
+                margin: 20px auto;
+                background: #eee;
+            }
+            .grid-item {
+                background: #fff;
+                border: 1px solid #ccc;
+                box-sizing: border-box;
+                transition: background 0.2s;
+            }
+            .grid-item.hovered {
+                background: #3498db; /* change to any color you like */
+            }
+            #controls {
+                text-align: center;
+                margin-top: 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="controls">
+            <button id="resizeBtn">Set Grid Size</button>
+        </div>
+        <h1>Sketch Pad Grid</h1>
+        <div class="grid-container" id="grid"></div>
+        <script>
+            const gridContainer= document.getElementById('grid');
+                const resizeBtn = document.getElementById('resizeBtn');
+                const containerSize = 960; // px
+
+                function createGrid(squarePerside) {
+                    //Remove old squares
+                    gridContainer.innerHTML = '';
+                    // Set grid container size
+                    gridContainer.style.width = containerSize + 'px';
+                    gridContainer.style.height = containerSize + 'px';
+
+                    // Calculate square size
+                    const squareSize = containerSize / squarePerside;
+
+                    for (let i = 0; i < squarePerside * squarePerside; i++) {
+                        const square = document.createElement('div');
+                        square.className = 'gird-item';
+                        square.style.width = squareSize + 'px';
+                        square.style.height = squareSize + 'px';
+                        square.addEventListener('mouseover', function() {
+                            square.classList.add('hovered');
+                        });
+                        gridContainer.appendChild(square);
+                    }
+
+                    // Inital grid
+                    createGrid(16);
+
+                    resizeBtn.addEventListener('click', function() {
+                        let size = prompt('Enter number of squares per side (e.g., 16, 32, 64):', 16);
+                        size = parseInt(size);
+                        if (isNaN(size) || size < 1 || size > 100) {
+                            alert('please enter a valid number between 1 and 100.');
+                            return;
+                        }
+                        createGrid(size);
+                    });
+
+                }
+        </script>
+    </body>
+</html>
